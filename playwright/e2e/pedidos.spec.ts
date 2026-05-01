@@ -17,9 +17,9 @@ test('deve consultar um pedido aprovado', async ({ page }) => {
   await page.getByTestId('search-order-button').click();
   
   // Assert
-  await expect(page.getByTestId('order-result-id')).toBeVisible();
-  await expect(page.getByTestId('order-result-id')).toContainText('VLO-AGJAZC');
-  await expect(page.getByTestId('order-result-status')).toBeVisible();
-  await expect(page.getByTestId('order-result-status')).toContainText('APROVADO');
+  await expect(page.getByText('VLO-AGJAZC')).toBeVisible();
+  await expect(page.getByTestId('order-result-VLO-AGJAZC')).toContainText('VLO-AGJAZC');
+  await expect(page.getByText('APROVADO')).toBeVisible();
+  await expect(page.getByTestId('order-result-VLO-AGJAZC')).toContainText('APROVADO');
   
 });
