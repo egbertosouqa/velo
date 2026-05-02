@@ -3,6 +3,10 @@ import { test, expect } from '@playwright/test';
 // AAA - Arrange, Act, Assert 
 
 test('deve consultar um pedido aprovado', async ({ page }) => {
+  // Teste Data
+
+  const order = 'VLO-AGJAZC'
+
   // Arrange
   await page.goto('http://localhost:5173/');
   // checkpoint
@@ -13,7 +17,7 @@ test('deve consultar um pedido aprovado', async ({ page }) => {
 
 
   // Act
-  await page.getByTestId('search-order-id').fill('VLO-AGJAZC');
+  await page.getByTestId('search-order-id').fill(order);
   await page.getByTestId('search-order-button').click();
 
   // Assert
@@ -25,7 +29,7 @@ test('deve consultar um pedido aprovado', async ({ page }) => {
     .filter({ hasText: /^Pedido$/ })
     .locator('..') // sobe para o elemento pai (a div que agrupa ambos)
 
-  await expect(containerPedido).toContainText('VLO-AGJAZC', { timeout: 10_000 });
+  await expect(containerPedido).toContainText(order, { timeout: 10_000 });
 
 
   const containerAprovado = page.getByText('APROVADO')
