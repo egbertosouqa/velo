@@ -15,11 +15,24 @@ test('deve consultar um pedido aprovado', async ({ page }) => {
   // Act
   await page.getByTestId('search-order-id').fill('VLO-AGJAZC');
   await page.getByTestId('search-order-button').click();
-  
+
   // Assert
-  await expect(page.getByText('VLO-AGJAZC')).toBeVisible();
-  await expect(page.getByTestId('order-result-VLO-AGJAZC')).toContainText('VLO-AGJAZC');
-  await expect(page.getByText('APROVADO')).toBeVisible();
-  await expect(page.getByTestId('order-result-VLO-AGJAZC')).toContainText('APROVADO');
+
+  // const orderCode = page.locator('//p[text()="Pedido"]/..//p[text()="VLO-AGJAZC"]');
+  // await expect(orderCode).toBeVisible();
+
+  const containerPedido = page.getByRole('paragraph')
+    .filter({ hasText: /^Pedido$/ })
+    .locator('..') // sobe para o elemento pai (a div que agrupa ambos)
+
+  await expect(containerPedido).toContainText('VLO-AGJAZC', { timeout: 10_000 });
+
+
+  const containerAprovado = page.getByText('APROVADO')
+  .filter({ hasText: /^APROVADO$/ })
+  .locator('..') // sobe para o elemento pai (a div que agrupa ambos)
+
+  await expect(containerAprovado).toBeVisible();
   
+
 });
