@@ -169,7 +169,74 @@ test.describe("Consulta de Pedido", () => {
       - paragraph: /R\\$ \\d+\\.\\d+,\\d+/
       `);
   });
+  
+  test('deve consultar um pedido em analise', async ({ page }) => {
+    // Teste Data
 
+    const order = {
+      number: 'VLO-FXSJL2',
+      status: 'EM_ANALISE',
+      color: 'Lunar White',
+      wheels: 'aero Wheels',
+      customer: {
+        name: 'João da Silva',
+        email: 'joao@velo.dev'
+      },
+      payment: 'À Vista'
+    }
+
+    // Act
+    await page.getByTestId('search-order-id').fill(order.number);
+    await page.getByTestId('search-order-button').click();
+
+    // Assert
+
+    // const orderCode = page.locator('//p[text()="Pedido"]/..//p[text()="VLO-AGJAZC"]');
+    // await expect(orderCode).toBeVisible();
+
+    // comentado para usar snapshoot
+    // const containerPedido = page.getByRole('paragraph')
+    //   .filter({ hasText: /^Pedido$/ })
+    //   .locator('..') // sobe para o elemento pai (a div que agrupa ambos)
+
+    // await expect(containerPedido).toContainText(order, { timeout: 10_000 });
+
+
+    // const containerAprovado = page.getByText('APROVADO')
+    //   .filter({ hasText: /^APROVADO$/ })
+    //   .locator('..') // sobe para o elemento pai (a div que agrupa ambos)
+
+    // await expect(containerAprovado).toBeVisible();
+
+    await expect(page.getByTestId(`order-result-${order.number}`)).toMatchAriaSnapshot(`
+      - img
+      - paragraph: Pedido
+      - paragraph: ${order.number}
+      - img
+      - text: ${order.status}
+      - img "Velô Sprint"
+      - paragraph: Modelo
+      - paragraph: Velô Sprint
+      - paragraph: Cor
+      - paragraph: ${order.color}
+      - paragraph: Interior
+      - paragraph: cream
+      - paragraph: Rodas
+      - paragraph: ${order.wheels}
+      - heading "Dados do Cliente" [level=4]
+      - paragraph: Nome
+      - paragraph: ${order.customer.name}
+      - paragraph: Email
+      - paragraph: ${order.customer.email}
+      - paragraph: Loja de Retirada
+      - paragraph
+      - paragraph: Data do Pedido
+      - paragraph: /\\d+\\/\\d+\\/\\d+/
+      - heading "Pagamento" [level=4]
+      - paragraph: ${order.payment}
+      - paragraph: /R\\$ \\d+\\.\\d+,\\d+/
+      `);
+  });
 
   test('deve exibir mensagem de erro quando o pedido não for encontrado', async ({ page }) => {
     // Teste Data
