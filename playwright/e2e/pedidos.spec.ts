@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import {generateOrderCode} from '../support/helpers'
 
 // AAA - Arrange, Act, Assert 
 
@@ -44,7 +45,8 @@ test('deve consultar um pedido aprovado', async ({ page }) => {
 test('deve exibir mensagem de erro quando o pedido não for encontrado', async ({ page }) => {
   // Teste Data
 
-  const order = 'VLO-AGJAZ2'
+  const order =  generateOrderCode() 
+
 
   // Arrange
   await page.goto('http://localhost:5173/');
