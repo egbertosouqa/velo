@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { generateOrderCode } from '../support/helpers'
 
+import { OrderLockupPage } from '../support/pages/OrderLockupPage';
+
 // AAA - Arrange, Act, Assert 
 
 test.describe("Consulta de Pedido", () => {
@@ -48,8 +50,8 @@ test.describe("Consulta de Pedido", () => {
     }
 
     // Act
-    await page.getByTestId('search-order-id').fill(order.number);
-    await page.getByTestId('search-order-button').click();
+    const orderLockupPage = new OrderLockupPage(page)
+    await orderLockupPage.searchOrder(order.number)
 
     // Assert
 
@@ -100,15 +102,15 @@ test.describe("Consulta de Pedido", () => {
       - paragraph: /R\\$ \\d+\\.\\d+,\\d+/
       `);
 
-      const statusBadge = page.getByRole('status').filter({hasText: order.status})
+    const statusBadge = page.getByRole('status').filter({ hasText: order.status })
 
-      await expect(statusBadge).toHaveClass(/bg-green-100/)
-      await expect(statusBadge).toHaveClass(/text-green-700/)
+    await expect(statusBadge).toHaveClass(/bg-green-100/)
+    await expect(statusBadge).toHaveClass(/text-green-700/)
 
-      const statusIcon = statusBadge.locator('svg')
-      await expect(statusIcon).toHaveClass(/lucide-circle-check-big/)
+    const statusIcon = statusBadge.locator('svg')
+    await expect(statusIcon).toHaveClass(/lucide-circle-check-big/)
 
-      //await expect(statusBadge).toContainClass('bg-amber-100')
+    //await expect(statusBadge).toContainClass('bg-amber-100')
   });
 
   test('deve consultar um pedido reprovado', async ({ page }) => {
@@ -129,8 +131,8 @@ test.describe("Consulta de Pedido", () => {
     }
 
     // Act
-    await page.getByTestId('search-order-id').fill(order.number);
-    await page.getByTestId('search-order-button').click();
+    const orderLockupPage = new OrderLockupPage(page)
+    await orderLockupPage.searchOrder(order.number)
 
     // Assert
 
@@ -181,13 +183,13 @@ test.describe("Consulta de Pedido", () => {
       - paragraph: /R\\$ \\d+\\.\\d+,\\d+/
       `);
 
-      const statusBadge = page.getByRole('status').filter({hasText: order.status})
+    const statusBadge = page.getByRole('status').filter({ hasText: order.status })
 
-      await expect(statusBadge).toHaveClass(/bg-red-100/)
-      await expect(statusBadge).toHaveClass(/text-red-700/)
+    await expect(statusBadge).toHaveClass(/bg-red-100/)
+    await expect(statusBadge).toHaveClass(/text-red-700/)
 
-      const statusIcon = statusBadge.locator('svg')
-      await expect(statusIcon).toHaveClass(/lucide-circle-x/)
+    const statusIcon = statusBadge.locator('svg')
+    await expect(statusIcon).toHaveClass(/lucide-circle-x/)
   });
 
   test('deve consultar um pedido em analise', async ({ page }) => {
@@ -206,8 +208,8 @@ test.describe("Consulta de Pedido", () => {
     }
 
     // Act
-    await page.getByTestId('search-order-id').fill(order.number);
-    await page.getByTestId('search-order-button').click();
+    const orderLockupPage = new OrderLockupPage(page)
+    await orderLockupPage.searchOrder(order.number)
 
     // Assert
 
@@ -258,15 +260,15 @@ test.describe("Consulta de Pedido", () => {
       - paragraph: /R\\$ \\d+\\.\\d+,\\d+/
       `);
 
-      const statusBadge = page.getByRole('status').filter({hasText: order.status})
+    const statusBadge = page.getByRole('status').filter({ hasText: order.status })
 
-      await expect(statusBadge).toHaveClass(/bg-amber-100/)
-      await expect(statusBadge).toHaveClass(/text-amber-700/)
+    await expect(statusBadge).toHaveClass(/bg-amber-100/)
+    await expect(statusBadge).toHaveClass(/text-amber-700/)
 
-      const statusIcon = statusBadge.locator('svg')
-      await expect(statusIcon).toHaveClass(/lucide-clock/)
+    const statusIcon = statusBadge.locator('svg')
+    await expect(statusIcon).toHaveClass(/lucide-clock/)
 
-      
+
   });
 
   test('deve exibir mensagem de erro quando o pedido não for encontrado', async ({ page }) => {
@@ -275,9 +277,9 @@ test.describe("Consulta de Pedido", () => {
     const order = generateOrderCode()
 
 
-    //Act
-    await page.getByTestId('search-order-id').fill(order);
-    await page.getByTestId('search-order-button').click();
+       // Act
+       const orderLockupPage = new OrderLockupPage(page)
+       await orderLockupPage.searchOrder(order)
 
 
     //Assert
