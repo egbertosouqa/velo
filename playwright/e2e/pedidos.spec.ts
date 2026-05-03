@@ -43,20 +43,48 @@ test.describe("Consulta de Pedido", () => {
     // const orderCode = page.locator('//p[text()="Pedido"]/..//p[text()="VLO-AGJAZC"]');
     // await expect(orderCode).toBeVisible();
 
-    const containerPedido = page.getByRole('paragraph')
-      .filter({ hasText: /^Pedido$/ })
-      .locator('..') // sobe para o elemento pai (a div que agrupa ambos)
+    // comentado para usar snapshoot
+    // const containerPedido = page.getByRole('paragraph')
+    //   .filter({ hasText: /^Pedido$/ })
+    //   .locator('..') // sobe para o elemento pai (a div que agrupa ambos)
 
-    await expect(containerPedido).toContainText(order, { timeout: 10_000 });
-
-
-    const containerAprovado = page.getByText('APROVADO')
-      .filter({ hasText: /^APROVADO$/ })
-      .locator('..') // sobe para o elemento pai (a div que agrupa ambos)
-
-    await expect(containerAprovado).toBeVisible();
+    // await expect(containerPedido).toContainText(order, { timeout: 10_000 });
 
 
+    // const containerAprovado = page.getByText('APROVADO')
+    //   .filter({ hasText: /^APROVADO$/ })
+    //   .locator('..') // sobe para o elemento pai (a div que agrupa ambos)
+
+    // await expect(containerAprovado).toBeVisible();
+
+    await expect(page.getByTestId(`order-result-${order}`)).toMatchAriaSnapshot(`
+      - img
+      - paragraph: Pedido
+      - paragraph: ${order}
+      - img
+      - text: APROVADO
+      - img "Velô Sprint"
+      - paragraph: Modelo
+      - paragraph: Velô Sprint
+      - paragraph: Cor
+      - paragraph: Lunar White
+      - paragraph: Interior
+      - paragraph: cream
+      - paragraph: Rodas
+      - paragraph: aero Wheels
+      - heading "Dados do Cliente" [level=4]
+      - paragraph: Nome
+      - paragraph: Fernando Papito
+      - paragraph: Email
+      - paragraph: papito@velo.dev
+      - paragraph: Loja de Retirada
+      - paragraph
+      - paragraph: Data do Pedido
+      - paragraph: /\\d+\\/\\d+\\/\\d+/
+      - heading "Pagamento" [level=4]
+      - paragraph: À Vista
+      - paragraph: /R\\$ \\d+\\.\\d+,\\d+/
+      `);
   });
 
   test('deve exibir mensagem de erro quando o pedido não for encontrado', async ({ page }) => {
