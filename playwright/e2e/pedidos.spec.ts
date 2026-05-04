@@ -39,7 +39,7 @@ test.describe("Consulta de Pedido", () => {
 
     const order = {
       number: 'VLO-AGJAZC',
-      status: 'APROVADO',
+      status: 'APROVADO' as const,
       color: 'Lunar White',
       wheels: 'aero Wheels',
       customer: {
@@ -102,15 +102,18 @@ test.describe("Consulta de Pedido", () => {
       - paragraph: /R\\$ \\d+\\.\\d+,\\d+/
       `);
 
-    const statusBadge = page.getByRole('status').filter({ hasText: order.status })
+    // const statusBadge = page.getByRole('status').filter({ hasText: order.status })
 
-    await expect(statusBadge).toHaveClass(/bg-green-100/)
-    await expect(statusBadge).toHaveClass(/text-green-700/)
+    // await expect(statusBadge).toHaveClass(/bg-green-100/)
+    // await expect(statusBadge).toHaveClass(/text-green-700/)
 
-    const statusIcon = statusBadge.locator('svg')
-    await expect(statusIcon).toHaveClass(/lucide-circle-check-big/)
+    // const statusIcon = statusBadge.locator('svg')
+    // await expect(statusIcon).toHaveClass(/lucide-circle-check-big/)
 
     //await expect(statusBadge).toContainClass('bg-amber-100')
+
+    // validacao da badge
+    await orderLockupPage.validateStatusBadge(order.status)
   });
 
   test('deve consultar um pedido reprovado', async ({ page }) => {
@@ -120,7 +123,7 @@ test.describe("Consulta de Pedido", () => {
 
     const order = {
       number: 'VLO-SMJO5I',
-      status: 'REPROVADO',
+      status: 'REPROVADO' as const,
       color: 'Midnight Black',
       wheels: 'sport Wheels',
       customer: {
@@ -183,13 +186,15 @@ test.describe("Consulta de Pedido", () => {
       - paragraph: /R\\$ \\d+\\.\\d+,\\d+/
       `);
 
-    const statusBadge = page.getByRole('status').filter({ hasText: order.status })
+    // const statusBadge = page.getByRole('status').filter({ hasText: order.status })
 
-    await expect(statusBadge).toHaveClass(/bg-red-100/)
-    await expect(statusBadge).toHaveClass(/text-red-700/)
+    // await expect(statusBadge).toHaveClass(/bg-red-100/)
+    // await expect(statusBadge).toHaveClass(/text-red-700/)
 
-    const statusIcon = statusBadge.locator('svg')
-    await expect(statusIcon).toHaveClass(/lucide-circle-x/)
+    // const statusIcon = statusBadge.locator('svg')
+    // await expect(statusIcon).toHaveClass(/lucide-circle-x/)
+
+    await orderLockupPage.validateStatusBadge(order.status)
   });
 
   test('deve consultar um pedido em analise', async ({ page }) => {
@@ -197,7 +202,7 @@ test.describe("Consulta de Pedido", () => {
 
     const order = {
       number: 'VLO-FXSJL2',
-      status: 'EM_ANALISE',
+      status: 'EM_ANALISE' as const,
       color: 'Lunar White',
       wheels: 'aero Wheels',
       customer: {
@@ -260,14 +265,15 @@ test.describe("Consulta de Pedido", () => {
       - paragraph: /R\\$ \\d+\\.\\d+,\\d+/
       `);
 
-    const statusBadge = page.getByRole('status').filter({ hasText: order.status })
+    // const statusBadge = page.getByRole('status').filter({ hasText: order.status })
 
-    await expect(statusBadge).toHaveClass(/bg-amber-100/)
-    await expect(statusBadge).toHaveClass(/text-amber-700/)
+    // await expect(statusBadge).toHaveClass(/bg-amber-100/)
+    // await expect(statusBadge).toHaveClass(/text-amber-700/)
 
-    const statusIcon = statusBadge.locator('svg')
-    await expect(statusIcon).toHaveClass(/lucide-clock/)
+    // const statusIcon = statusBadge.locator('svg')
+    // await expect(statusIcon).toHaveClass(/lucide-clock/)
 
+    await orderLockupPage.validateStatusBadge(order.status)
 
   });
 
@@ -277,9 +283,9 @@ test.describe("Consulta de Pedido", () => {
     const order = generateOrderCode()
 
 
-       // Act
-       const orderLockupPage = new OrderLockupPage(page)
-       await orderLockupPage.searchOrder(order)
+    // Act
+    const orderLockupPage = new OrderLockupPage(page)
+    await orderLockupPage.searchOrder(order)
 
 
     //Assert
