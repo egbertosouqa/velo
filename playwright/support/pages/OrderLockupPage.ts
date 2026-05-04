@@ -91,4 +91,8 @@ export class OrderLockupPage {
             - paragraph: Verifique o número do pedido e tente novamente
             `);
     }
+
+    async validatePageLoaded(){
+        await expect(this.page.getByRole('heading')).toContainText('Consultar Pedido');
+    }
 }

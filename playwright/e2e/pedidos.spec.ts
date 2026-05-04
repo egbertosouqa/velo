@@ -1,11 +1,16 @@
 import { test, expect } from '@playwright/test';
 import { generateOrderCode } from '../support/helpers'
 
+import { Navbar } from '../support/components/Navbar'
+
+import { LandingPage } from '../support/pages/LandingPage'
 import { OrderLockupPage, OrderDetails } from '../support/pages/OrderLockupPage';
 
 // AAA - Arrange, Act, Assert 
 
 test.describe("Consulta de Pedido", () => {
+
+  let orderLockupPage: OrderLockupPage
 
   test.beforeAll(async () => {
     console.log('beforeAll: roda uma vez antes de todos os testes.')
@@ -14,13 +19,20 @@ test.describe("Consulta de Pedido", () => {
   test.beforeEach(async ({ page }) => {
     console.log('beforeEach: roda antes de cada teste.')
 
-    // Arrange
-    await page.goto('http://localhost:5173/');
-    // checkpoint
-    await expect(page.getByTestId('hero-section').getByRole('heading')).toContainText('Velô Sprint');
-    await page.getByRole('link', { name: 'Consultar Pedido' }).click();
-    // checkpoint
-    await expect(page.getByRole('heading')).toContainText('Consultar Pedido');
+    // // Arrange
+    // await page.goto('http://localhost:5173/');
+    // // checkpoint
+    // await expect(page.getByTestId('hero-section').getByRole('heading')).toContainText('Velô Sprint');
+    // await page.getByRole('link', { name: 'Consultar Pedido' }).click();
+    // // checkpoint
+    // await expect(page.getByRole('heading')).toContainText('Consultar Pedido');
+
+    await new LandingPage(page).goto()
+   
+    await new Navbar(page).orderLockupLink()
+
+    orderLockupPage = new OrderLockupPage(page)
+    orderLockupPage.validatePageLoaded()
   })
 
   test.afterEach(async () => {
@@ -50,7 +62,7 @@ test.describe("Consulta de Pedido", () => {
     }
 
     // Act
-    const orderLockupPage = new OrderLockupPage(page)
+    
     await orderLockupPage.searchOrder(order.number)
 
     // Assert
@@ -135,7 +147,7 @@ test.describe("Consulta de Pedido", () => {
     }
 
     // Act
-    const orderLockupPage = new OrderLockupPage(page)
+    
     await orderLockupPage.searchOrder(order.number)
 
     // Assert
@@ -186,7 +198,7 @@ test.describe("Consulta de Pedido", () => {
     }
 
     // Act
-    const orderLockupPage = new OrderLockupPage(page)
+    
     await orderLockupPage.searchOrder(order.number)
 
     // Assert
@@ -228,7 +240,7 @@ test.describe("Consulta de Pedido", () => {
 
 
     // Act
-    const orderLockupPage = new OrderLockupPage(page)
+    
     await orderLockupPage.searchOrder(order)
 
 
@@ -251,7 +263,7 @@ test.describe("Consulta de Pedido", () => {
 
 
     // Act
-    const orderLockupPage = new OrderLockupPage(page)
+    
     await orderLockupPage.searchOrder(order)
 
 
