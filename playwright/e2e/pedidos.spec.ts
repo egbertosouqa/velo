@@ -105,7 +105,11 @@ test.describe('Consulta de Pedido', () => {
 
   test('deve manter o botão desabilitado com campo vazio ou apenas espaços', async ({ app, page }) => {
 
-    const button = page.getByRole('button', { name: 'Buscar Pedido' })
+    const button = app.orderLookup.elements.searchButton
     await expect(button).toBeDisabled()
+
+    await app.orderLookup.elements.orderInput.fill('        ')
+    await expect(button).toBeDisabled()
+
   })
 })
