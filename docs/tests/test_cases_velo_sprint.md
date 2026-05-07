@@ -56,7 +56,34 @@ Validar se a seleção de cores, rodas e opcionais atualiza o preço final corre
 
 ---
 
-### CT03 - Validação de Campos Obrigatórios no Checkout
+### CT03 - Configuração do Veículo (Adição de Opcionais) e Cálculo de Preço
+
+#### Objetivo
+Validar se a seleção de opcionais ("Precision Park" e "Flux Capacitor") atualiza dinamicamente o preço do veículo.
+
+#### Pré-Condições
+- Estar na página `/configure`.
+- Veículo sem opcionais selecionados (Preço: R$ 40.000,00).
+
+#### Passos
+
+| Id | Ação | Resultado Esperado |
+|----|------|--------------------|
+| 1  | Marcar o checkbox do opcional "Precision Park". | O preço de venda deve ser acrescido de R$ 5.500,00. (Total temporário: R$ 45.500,00) |
+| 2  | Marcar o checkbox do opcional "Flux Capacitor". | O preço de venda deve ser acrescido de R$ 5.000,00. (Total temporário: R$ 50.500,00) |
+| 3  | Desmarcar o checkbox do opcional | O preço total deve subtrair os valores respectivos e voltar a R$ 40.000,00 |
+| 4 | Clicar no botão "Monte o Seu" (Checkout) | O usuário é redirecionado para a página de checkout (`/order`) com os valores persistidos. |
+
+#### Resultados Esperados
+- O preço total acompanha de forma exata a marcação e desmarcação dos opcionais.
+- O redirecionamento leva a configuração e o preço corretos para o Checkout.
+
+#### Critérios de Aceitação
+- O opcional "Precision Park" custa +R$ 5.500 e "Flux Capacitor" custa +R$ 5.000.
+
+---
+
+### CT03A - Validação de Campos Obrigatórios no Checkout
 
 #### Objetivo
 Garantir que o sistema impeça a finalização do pedido se dados obrigatórios não forem preenchidos.
