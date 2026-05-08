@@ -29,6 +29,14 @@ export function createConfiguratorActions(page: Page) {
       const carImage = page.locator('img[alt^="Velô Sprint"]')
 
       await expect(carImage).toHaveAttribute('src', expectedSrc)
+    },
+
+    async toggleOptional(optionalName: string) {
+      await page.locator('text=' + optionalName).click()
+    },
+
+    async submit() {
+      await page.getByRole('button', { name: 'Monte o Seu' }).click()
     }
   }
 }
