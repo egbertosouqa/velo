@@ -3,31 +3,24 @@ import { generateOrderCode } from '../support/helpers'
 
 import type { OrderDetails } from '../support/types/order'
 
+import { insertOrder, deleteOrderByNumber } from '../support/database/orderRepository'
+import crypto from 'crypto'
+
 // AAA - Arrange, Act, Assert
 
 test.describe('Consulta de Pedido', () => {
-  test.beforeAll(async () => {
-    console.log('beforeAll: roda uma vez antes de todos os testes.')
-  })
 
   test.beforeEach(async ({ app }) => {
     console.log('beforeEach: roda antes de cada teste.')
     await app.orderLookup.open()
   })
 
-  test.afterEach(async () => {
-    console.log('afterEach: roda depois de cada teste.')
-  })
-
-  test.afterAll(async () => {
-    console.log('afterAll: roda uma vez depois de todos os testes.')
-  })
-
   test('deve consultar um pedido aprovado', async ({ app }) => {
+    const code = generateOrderCode()
     const order: OrderDetails = {
-      number: 'VLO-AGJAZC',
+      number: code,
       status: 'APROVADO' as const,
-      color: 'Lunar White',
+      color: 'Glacier Blue',
       wheels: 'aero Wheels',
       customer: {
         name: 'Fernando Papito',
@@ -35,6 +28,23 @@ test.describe('Consulta de Pedido', () => {
       },
       payment: 'À Vista',
     }
+
+    await insertOrder({
+      id: crypto.randomUUID(),
+      order_number: code,
+      color: 'glacier-blue',
+      wheel_type: 'aero',
+      customer_name: order.customer.name,
+      customer_email: order.customer.email,
+      customer_phone: '(11) 99999-9999',
+      customer_cpf: '780.228.290-05',
+      payment_method: 'avista',
+      total_price: '40000',
+      status: order.status,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      optionals: [],
+    })
 
     await app.orderLookup.searchOrder(order.number)
 
@@ -44,8 +54,9 @@ test.describe('Consulta de Pedido', () => {
   })
 
   test('deve consultar um pedido reprovado', async ({ app }) => {
+    const code = generateOrderCode()
     const order: OrderDetails = {
-      number: 'VLO-SMJO5I',
+      number: code,
       status: 'REPROVADO' as const,
       color: 'Midnight Black',
       wheels: 'sport Wheels',
@@ -56,6 +67,23 @@ test.describe('Consulta de Pedido', () => {
       payment: 'À Vista',
     }
 
+    await insertOrder({
+      id: crypto.randomUUID(),
+      order_number: code,
+      color: 'midnight-black',
+      wheel_type: 'sport',
+      customer_name: order.customer.name,
+      customer_email: order.customer.email,
+      customer_phone: '(11) 99999-9999',
+      customer_cpf: '780.228.290-05',
+      payment_method: 'avista',
+      total_price: '40000',
+      status: order.status,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      optionals: [],
+    })
+
     await app.orderLookup.searchOrder(order.number)
 
     await app.orderLookup.validateOrderDetails(order)
@@ -64,8 +92,9 @@ test.describe('Consulta de Pedido', () => {
   })
 
   test('deve consultar um pedido em analise', async ({ app }) => {
+    const code = generateOrderCode()
     const order: OrderDetails = {
-      number: 'VLO-FXSJL2',
+      number: code,
       status: 'EM_ANALISE' as const,
       color: 'Lunar White',
       wheels: 'aero Wheels',
@@ -75,6 +104,23 @@ test.describe('Consulta de Pedido', () => {
       },
       payment: 'À Vista',
     }
+
+    await insertOrder({
+      id: crypto.randomUUID(),
+      order_number: code,
+      color: 'lunar-white',
+      wheel_type: 'aero',
+      customer_name: order.customer.name,
+      customer_email: order.customer.email,
+      customer_phone: '(11) 99999-9999',
+      customer_cpf: '780.228.290-05',
+      payment_method: 'avista',
+      total_price: '40000',
+      status: order.status,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      optionals: [],
+    })
 
     await app.orderLookup.searchOrder(order.number)
 
